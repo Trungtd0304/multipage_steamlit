@@ -5,8 +5,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 def app(df, first_date, latest_date, customer, id_kh, ne_kh):
-    
-    st.title("Projects")
     df['Mã tình'] = df['ma_khach_hang'].str.slice(0, 3)
     df['date'] = df['date'].dt.date
     df_selection = df.query(
@@ -47,7 +45,7 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh):
     fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
     layout_params = dict(
     width=500,
-    height=500,
+    height=600,
     yaxis_title=None,
     xaxis_title=None,
     )
