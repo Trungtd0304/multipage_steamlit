@@ -15,8 +15,8 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh):
     df_line = df.query(
         "KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh)"
     ).groupby('date')['total_order'].sum().reset_index()
-    df_line['total_order_n-1'] = ((df_line['total_order']/df_line['total_order'].shift(1))-1)
-    df_line['total_order_n-1'] = df_line['total_order_n-1'].apply(lambda x: '{:.1%}'.format(x))
+    df_line['ratio_dif'] = ((df_line['total_order']/df_line['total_order'].shift(1))-1)
+    df_line['ratio_dif'] = df_line['ratio_dif'].apply(lambda x: '{:.1%}'.format(x))    
     df_line=df_line.query("date >= @first_date & date <= @latest_date")
     # fig_line = px.line(df_line, x='date', y='total_order', labels={'total_order': 'Tổng đơn hàng'})
     # Tạo figure với trục y phụ
@@ -26,7 +26,7 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh):
     secondary_y=False,)
     # Thêm dữ liệu cho trục y phụ
     fig.add_trace(
-    go.Scatter(x=df_line['date'], y=df_line['total_order_n-1'], name='Tỷ lệ',text='total_order_n-1'),
+    go.Scatter(x=df_line['date'], y=df_line['ratio_dif'], name='Tỷ lệ',text='ratio_dif'),
     secondary_y=True,)
     fig.update_layout(title_text='So sánh tổng đơn hàng Ngày và Tỷ lệ thay đổi')
     fig.update_yaxes(range=[400000, max(df_line['total_order'])], secondary_y=False)
@@ -41,6 +41,7 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh):
                     textinfo='label+percent' if df_selection['tinh_gui'].isin(top5).any() else 'none')
     df_selection = df_selection.groupby('nguon_dat_hang')['total_order'].sum().reset_index()
     df_selection = df_selection.sort_values(by='total_order', ascending=True)
+    df_selection['total_order'] = df_selection['total_order'].apply(lambda x: '{:,.0f}'.format(x))
     fig_bar = px.bar(df_selection, x='total_order', y='nguon_dat_hang', orientation='h', text='total_order', title='Tổng đơn hàng theo khách hàng')
     fig_bar.update_yaxes(tickfont=dict(size=10))
     fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
