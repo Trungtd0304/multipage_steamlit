@@ -27,8 +27,8 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh):
     go.Scatter(x=df_line['date'], y=df_line['ratio_dif'], name='Tỷ lệ',text='ratio_dif'),
     secondary_y=True,)
     fig.update_layout(title_text='So sánh tổng đơn hàng Ngày và Tỷ lệ thay đổi')
-    fig.update_yaxes(range=[400000, max(df_line['total_order'])], secondary_y=False)
-    # fig.update_yaxes(range=[-15, 70], secondary_y=True)
+    fig.update_yaxes(range=[min(df_line['total_order'])/1.2, max(df_line['total_order'])*1.2], secondary_y=False)
+    # fig.update_yaxes(range=[min(df_line['ratio_dif']), max(df_line['ratio_dif'])], secondary_y=True)
     fig.update_traces(textposition='top center')
     
     
