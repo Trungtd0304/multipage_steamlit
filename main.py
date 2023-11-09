@@ -24,7 +24,17 @@ multi_day = df[(df['date'].dt.year == latest_year) & (df['date'].dt.month == lat
 latest_day = df[(df['date'].dt.year == latest_year) & (df['date'].dt.month == latest_month)]['date'].dt.day.max()
 df.loc[df['ma_khach_hang'].str[:3] == '084', 'KH'] = 'HQ'
 df.loc[~(df['ma_khach_hang'].str[:3] == '084'), 'KH'] = 'KV'
-
+mapping = {'Hồ Chí Minh':'Hồ Chí Minh','Hà Nội':'Hà Nội','Vĩnh Phúc':'Hà Nội','Thành phố Hà Nội':'Hà Nội',
+'Hải Phòng':'Miền Bắc 2','Quảng Ninh':'Miền Bắc 2','Bình Định':'Miền Trung 2','Phú Yên':'Miền Trung 2','Khánh Hòa':'Miền Trung 2','Quảng Ngãi':'Miền Trung 2',
+'Quảng Trị':'Miền Trung 1','Thừa Thiên – Huế':'Miền Trung 1','Quảng Nam':'Miền Trung 1','Đà Nẵng':'Miền Trung 1',
+'Kon Tum':'Miền Trung 2','Gia Lai':'Miền Trung 2','Đắk Lắk':'Miền Trung 2','Đắk Nông':'Miền Trung 2','Lâm Đồng':'Miền Trung 2',
+'Thanh Hóa':'Miền Trung 1','Nghệ An':'Miền Trung 1','Hà Tĩnh':'Miền Trung 1','Quảng Bình':'Miền Trung 1',
+'Hà Giang':'Miền Bắc 1','Tuyên Quang':'Miền Bắc 1','Cao Bằng':'Miền Bắc 1','Bắc Kạn':'Miền Bắc 1','Bắc Giang':'Miền Bắc 1','Lạng Sơn':'Miền Bắc 1','Thái Nguyên':'Miền Bắc 1','Lai Châu':'Miền Bắc 1','Điện Biên':'Miền Bắc 1','Sơn La':'Miền Bắc 1','Yên Bái':'Miền Bắc 1','Phú Thọ':'Miền Bắc 1','Hòa Bình':'Miền Bắc 1','Lào Cai':'Miền Bắc 1',
+'Hà Nam':'Miền Bắc 2','Ninh Bình':'Miền Bắc 2','Thái Bình':'Miền Bắc 2','Nam Định':'Miền Bắc 2','Hải Dương':'Miền Bắc 2','Hưng Yên':'Miền Bắc 2','Bắc Ninh':'Miền Bắc 2',
+'Tây Ninh':'Miền Nam 1','Bình Phước':'Miền Nam 1','Bình Dương':'Miền Nam 1','Đồng Nai':'Miền Nam 1','Bà Rịa – Vũng Tàu':'Miền Nam 1','Ninh Thuận':'Miền Nam 1','Bình Thuận':'Miền Nam 1',
+'Đồng Tháp':'Miền Nam 2','Long An':'Miền Nam 2','An Giang':'Miền Nam 2','Kiên Giang':'Miền Nam 2','Hậu Giang':'Miền Nam 2','Cần Thơ':'Miền Nam 2',
+'Tiền Giang':'Miền Nam 2','Bến Tre':'Miền Nam 2','Trà Vinh':'Miền Nam 2','Sóc Trăng':'Miền Nam 2','Vĩnh Long':'Miền Nam 2','Bạc Liêu':'Miền Nam 2','Cà Mau':'Miền Nam 2'}
+df['khu_vuc'] = df['tinh_gui'].map(mapping)
 
 
 class MultiApp:
@@ -92,15 +102,15 @@ class MultiApp:
             unsafe_allow_html=True,
         )
         first_date=st.sidebar.date_input(
-            "Select a date",
+            "Chọn ngày bắt đầu",
             datetime.date(latest_year,latest_month,1)
         )
         latest_date=st.sidebar.date_input(
-            "Select a date",
+            "Chọn ngày kết thúc",
             datetime.date(latest_year,latest_month,latest_day)
         )
         customer = st.sidebar.multiselect(
-            "Select HQ or KV",
+            "Chọn HQ, KV",
             df['KH'].unique(),
             'HQ'
         )
@@ -125,20 +135,27 @@ class MultiApp:
             </style>
             """, unsafe_allow_html=True)
         id_kh = st.sidebar.multiselect(
-        "Select ID KH",
+        "Chọn mã khách hàng",
         id_kh,
         id_kh
         )
         ne_kh = st.sidebar.multiselect(
-        "Select name KH",
+        "Chọn tên khách hàng",
         ne_kh
         )
-        
-        
+        id_kv = st.sidebar.multiselect(
+        "Chọn khu vực",
+        df['khu_vuc'].unique(),
+        df['khu_vuc'].unique()
+        )
+        id_tinh = st.sidebar.multiselect(
+        "Chọn tỉnh gửi",
+        df['tinh_gui'].unique()
+        )
         if app == 'Chart':
-            project.app(df, first_date, latest_date, customer, id_kh, ne_kh)
+            project.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
         if app == 'Detai':
-            detai.app(df, first_date, latest_date, customer, id_kh, ne_kh)
+            detai.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
         st.markdown("""
             <style>
             #MainMenu {visibility: hidden;}

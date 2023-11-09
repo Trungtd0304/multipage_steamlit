@@ -8,7 +8,7 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh):
     df['date'] = pd.to_datetime(df['date'])
     # df['total_order'] = df['total_order'].astype(int)
     df=df.query(
-        "date >= @first_date & date <= @latest_date & KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh)"
+        "date >= @first_date & date <= @latest_date & KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh) & (khu_vuc = @id_kv | tinh_gui=@id_tinh)"
     )
     df_selection = df.groupby(['ma_khach_hang','nguon_dat_hang', 'date'])['total_order'].sum().reset_index()
     df_selection['date']=df_selection['date'].dt.strftime('%Y/%m/%d')
