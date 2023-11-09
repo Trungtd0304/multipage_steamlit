@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import datetime
 
+@st.cache_data
 def getData(data_path):
     df_total = []
     for file in os.listdir(data_path):
@@ -24,10 +25,6 @@ latest_day = df[(df['date'].dt.year == latest_year) & (df['date'].dt.month == la
 df.loc[df['ma_khach_hang'].str[:3] == '084', 'KH'] = 'HQ'
 df.loc[~(df['ma_khach_hang'].str[:3] == '084'), 'KH'] = 'KV'
 
-
-st.set_page_config(
-    page_title = "J&T",
-)
 
 
 class MultiApp:
@@ -141,7 +138,7 @@ class MultiApp:
         if app == 'Chart':
             project.app(df, first_date, latest_date, customer, id_kh, ne_kh)
         if app == 'Detai':
-            detai.app( first_date, latest_date, customer, id_kh, ne_kh)
+            detai.app(df, first_date, latest_date, customer, id_kh, ne_kh)
         st.markdown("""
             <style>
             #MainMenu {visibility: hidden;}
