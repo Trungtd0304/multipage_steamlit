@@ -140,8 +140,8 @@ class MultiApp:
         
         if app == 'Chart':
             project.app(df, first_date, latest_date, customer, id_kh, ne_kh)
-        if app == 'About':
-            detai.app(df)
+        if app == 'Detai':
+            detai.app( first_date, latest_date, customer, id_kh, ne_kh)
         st.markdown("""
             <style>
             #MainMenu {visibility: hidden;}
