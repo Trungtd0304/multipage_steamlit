@@ -8,10 +8,10 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh):
     df['Mã tình'] = df['ma_khach_hang'].str.slice(0, 3)
     df['date'] = df['date'].dt.date
     df_selection = df.query(
-        "date >= @first_date & date <= @latest_date & KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh) & (khu_vuc = @id_kv | tinh_gui=@id_tinh)"
+        "date >= @first_date & date <= @latest_date & KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh) & (khu_vuc == @id_kv | tinh_gui == @id_tinh)"
     )
     df_line = df.query(
-        "KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh) & (khu_vuc = @id_kv | tinh_gui=@id_tinh)"
+        "KH == @customer & (ma_khach_hang == @id_kh | nguon_dat_hang == @ne_kh) & (khu_vuc == @id_kv | tinh_gui ==@id_tinh)"
     ).groupby('date')['total_order'].sum().reset_index()
     df_line['ratio_dif'] = ((df_line['total_order']/df_line['total_order'].shift(1))-1)
     df_line['ratio_dif'] = df_line['ratio_dif'].apply(lambda x: '{:.1%}'.format(x))    
