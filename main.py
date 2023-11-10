@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import project, detai, area
+import project, detai, area, affiliate
 import pandas as pd
 import os
 import datetime
@@ -57,15 +57,15 @@ class MultiApp:
         with st.sidebar:
             app = option_menu(
             menu_title = None,
-            options = ['Chart','Detai','Area'],
-            icons = ['house-fill','person-circle','collection-fill'],
+            options = ['Chart','Detai','Area','Affiliate'],
+            icons = ['house-fill','person-circle','collection-fill','sliders2'],
             # menu_icon = 'chat-text-fill',
             menu_icon = 'cast',
-            default_index = 2,
+            default_index = 3,
             styles = {
-                'container':{'padding':'5!important','background-color':'black'},
-                'icon':{'color':'white','font-size':'23px'},
-                'nav-link':{'color':'white','font-size':'20px','text-align':'left','margin':'0px'},
+                'container':{'padding':'1!important','background-color':'black'},
+                'icon':{'color':'white','font-size':'10px'},
+                'nav-link':{'color':'white','font-size':'15px','text-align':'left','margin':'0px'},
                 'nav-link-selected':{'background-color':'#02ab21'},
             }
         )
@@ -158,6 +158,8 @@ class MultiApp:
             detai.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
         if app == 'Area':
             area.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
+        if app =='Affiliate':
+            affiliate.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
         
         st.markdown("""
             <style>
