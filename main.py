@@ -101,14 +101,21 @@ class MultiApp:
             </style>""",
             unsafe_allow_html=True,
         )
-        first_date=st.sidebar.date_input(
-            "Chọn ngày bắt đầu",
-            datetime.date(latest_year,latest_month,1)
-        )
-        latest_date=st.sidebar.date_input(
-            "Chọn ngày kết thúc",
-            datetime.date(latest_year,latest_month,latest_day)
-        )
+        # first_date=st.sidebar.date_input(
+        #     "Chọn ngày bắt đầu",
+        #     datetime.date(latest_year,latest_month,1)
+        # )
+        # latest_date=st.sidebar.date_input(
+        #     "Chọn ngày kết thúc",
+        #     datetime.date(latest_year,latest_month,latest_day)
+        # )
+        with st.sidebar:
+            # st.write("Chọn ngày bắt đầu và kết thúc:")
+            col1, col2 = st.columns(2)  # Sử dụng beta_columns để tạo 2 cột
+            with col1:
+                first_date = st.date_input("Bắt đầu", datetime.date(latest_year, latest_month, 1))
+            with col2:
+                latest_date = st.date_input("Kết thúc", datetime.date(latest_year, latest_month, latest_day))
         customer = st.sidebar.multiselect(
             "Chọn HQ, KV",
             df['KH'].unique(),
