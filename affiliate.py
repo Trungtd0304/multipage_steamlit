@@ -6,7 +6,8 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh):
         "date >= @first_date & date <= @latest_date & (khu_vuc == @id_kv | tinh_gui == @id_tinh)"
     )
     mapping = {'TPOS':'TPOS','UPOS':'UPOS','EVOSHOP':'UPOS','SAPOAFFILIATE':'SAPO','PANCAKE':'PANCAKE','NHANHMOIGIOI':'NHANH','KIOTVIETMOIGIOI':'KIOTVIET','HARAVAN':'HARAVAN'}
-    df['affiliate'] = df['nguon_dat_hang'].map(mapping)
+    df = df.copy()
+    df.loc[:, 'affiliate'] = df['nguon_dat_hang'].map(mapping)
     rename_cot = {  'khu_vuc': 'Khu vực', 
                 'tinh_gui': 'Tỉnh gửi'}
     df = df.rename(columns=rename_cot)
