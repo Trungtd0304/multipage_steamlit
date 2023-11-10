@@ -21,12 +21,10 @@ def app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh):
     total = df_pivot_KV_number['Tổng'].sum()
     df_pivot_KV_Ratio['Tỷ lệ %'] = df_pivot_KV_number['Tổng'].apply(lambda x: round(x/total*100,2))
     # By tỉnh gửi
-    df_selection_tinh = df.groupby(['Tỉnh gửi', 'date'])['total_order'].sum().reset_index()
-    df_selection_tinh['date']=df_selection_tinh['date'].dt.strftime('%Y/%m/%d')
-    df_pivot_Tinh_number = pd.pivot_table(data=df_selection_tinh,index=['Tỉnh gửi'], columns='date', values='total_order',aggfunc=sum,fill_value=0)
+    df_pivot_Tinh_number = pd.pivot_table(data=df,index=['Tỉnh gửi'], columns='affiliate', values='total_order',aggfunc=sum,fill_value=0)
     df_pivot_Tinh_number['Tổng'] = df_pivot_Tinh_number.iloc[:, 0:].sum(axis=1)
-    df_pivot_Tinh_Ratio= pd.pivot_table(data=df_selection_tinh, index='Tỉnh gửi',
-                                columns='date',
+    df_pivot_Tinh_Ratio= pd.pivot_table(data=df, index='Tỉnh gửi',
+                                columns='affiliate',
                                 values='total_order',
                                 aggfunc=sum,
                                 fill_value=0).apply(lambda x: round(x*100/sum(x),2))
