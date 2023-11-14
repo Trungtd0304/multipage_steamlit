@@ -61,7 +61,7 @@ class MultiApp:
             icons = ['house-fill','person-circle','collection-fill','sliders2'],
             # menu_icon = 'chat-text-fill',
             menu_icon = 'cast',
-            default_index = 3,
+            default_index = 0,
             styles = {
                 'container':{'padding':'1!important','background-color':'black'},
                 'icon':{'color':'white','font-size':'10px'},
@@ -160,9 +160,9 @@ class MultiApp:
         df['tinh_gui'].unique()
         )
         if app == 'Chart':
-            project.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
+            project.app(df, first_date, latest_date, customer, id_kh, ne_kh, id_kv,id_tinh)
         if app == 'Detai':
-            detai.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
+            detai.app(df, first_date, latest_date, customer, id_kh, ne_kh, id_kv,id_tinh)
         if app == 'Area':
             area.app(df, first_date, latest_date, customer, id_kh, ne_kh,id_kv,id_tinh)
         if app =='Affiliate':
